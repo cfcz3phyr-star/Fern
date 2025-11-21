@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>School Resource Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f6f7fb; --card:#ffffff; --muted:#69707a; --accent:#2b6ef6;
+    --glass: rgba(255,255,255,0.6);
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:linear-gradient(180deg,#eef2ff 0%,var(--bg) 100%);color:#0f1724}
+  .container{max-width:1100px;margin:36px auto;padding:20px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .logo{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#6a8cff);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:20px;box-shadow:0 6px 18px rgba(43,110,246,0.18)}
+  h1{margin:0;font-size:20px}
+  p.lead{margin:0;color:var(--muted);font-size:13px}
+  .searchbar{display:flex;gap:8px;align-items:center}
+  input[type="search"]{padding:12px 14px;border-radius:10px;border:1px solid #e6e9ef;width:420px;max-width:60vw;font-size:14px}
+  button.primary{background:var(--accent);color:white;border:none;padding:11px 14px;border-radius:10px;font-weight:600;cursor:pointer}
+  main{display:grid;grid-template-columns:1fr 340px;gap:20px}
+  .card{background:var(--card);border-radius:12px;padding:16px;box-shadow:0 6px 18px rgba(11,20,40,0.04)}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  .resource{padding:12px;border-radius:10px;background:linear-gradient(180deg,rgba(11,20,40,0.02),transparent);display:flex;flex-direction:column;gap:8px}
+  .resource h3{margin:0;font-size:14px}
+  .resource p{margin:0;color:var(--muted);font-size:12px}
+  .links{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  a.link{padding:8px 10px;border-radius:8px;background:#f3f5ff;border:1px solid #eef2ff;text-decoration:none;color:#2146c7;font-size:13px}
+  aside .card h3{margin-top:0}
+  .admin{margin-top:12px;padding:10px;border-radius:10px;background:linear-gradient(180deg,#fff,rgba(255,255,255,0.92));border:1px solid #eef2ff}
+  .toggle{display:flex;align-items:center;gap:10px}
+  .small{font-size:12px;color:var(--muted)}
+  footer{margin-top:18px;text-align:center;color:var(--muted);font-size:12px}
+  @media (max-width:900px){
+    main{grid-template-columns:1fr}
+    .grid{grid-template-columns:1fr}
+    input[type="search"]{width:100%}
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">SH</div>
+        <div>
+          <h1>School Resource Hub</h1>
+          <p class="lead">Approved learning materials, tools, and quick links for students and staff.</p>
+        </div>
+      </div>
+      <div class="searchbar">
+        <input id="searchBox" type="search" placeholder="Search approved resources (e.g., 'math video', 'library')">
+        <button class="primary" id="searchBtn">Search</button>
+      </div>
+    </header>
+
+    <main>
+      <section>
+        <div class="card">
+          <h2 style="margin-top:0">Quick Access</h2>
+          <div class="grid" id="resources">
+            <!-- Resource cards inserted by JS -->
+          </div>
+
+          <div style="margin-top:14px">
+            <h3 style="margin:0 0 8px 0">Recently added</h3>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div class="resource"><h3>Algebra 1 — Video Lesson</h3><p class="small">Khan Academy — topic: linear equations</p></div>
+              <div class="resource"><h3>School Library Catalog</h3><p class="small">Search the library for books and e-resources</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:14px">
+          <h2 style="margin-top:0">Announcements</h2>
+          <ul id="announcements" style="padding-left:18px;margin:8px 0 0 0;color:var(--muted)">
+            <li>Fall semester club signups open — see Student Services.</li>
+            <li>Library extended hours Monday–Thursday until 6:00 PM.</li>
+          </ul>
+        </div>
+      </section>
+
+      <aside>
+        <div class="card">
+          <h3>Staff & Admin</h3>
+          <p class="small">Admin tools below are for authorized school personnel only.</p>
+
+          <div class="admin">
+            <div class="toggle">
+              <label for="adminPass" class="small">Enter admin token (demo):</label>
+            </div>
+            <input id="adminPass" type="password" placeholder="admin token" style="width:100%;padding:8px;margin-top:8px;border-radius:8px;border:1px solid #e6e9ef">
+            <button id="adminBtn" class="primary" style="width:100%;margin-top:10px">Unlock Admin View</button>
+
+            <div id="adminPanel" style="display:none;margin-top:12px">
+              <p class="small">Admin panel (demo):</p>
+              <ul style="padding-left:18px;margin:6px 0 0 0;color:var(--muted);font-size:13px">
+                <li>View usage stats</li>
+                <li>Approve new resources</li>
+                <li>Manage announcements</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:14px">
+          <h3>Helpful Links</h3>
+          <div class="links">
+            <a class="link" href="https://www.khanacademy.org" target="_blank" rel="noopener">Khan Academy</a>
+            <a class="link" href="https://www.coursera.org" target="_blank" rel="noopener">Coursera</a>
+            <a class="link" href="https://scholar.google.com" target="_blank" rel="noopener">Google Scholar</a>
+            <a class="link" href="https://library.example.edu" target="_blank" rel="noopener">School Library</a>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <footer>
+      <div class="small">This portal is an approved, safe place to find study materials. For network or access requests contact your school's IT department.</div>
+    </footer>
+  </div>
+
+<script>
+  // Example resource data (safe static)
+  const resources = [
+    {title:'Algebra 1 — Practice Exercises', desc:'Interactive practice problems', url:'https://www.khanacademy.org/math/algebra'},
+    {title:'Digital Library — eBooks', desc:'Access eBooks and journals', url:'https://library.example.edu'},
+    {title:'TypingClub — Learn Typing', desc:'Improve keyboarding skills', url:'https://www.typingclub.com'},
+    {title:'Science Labs — Simulations', desc:'Virtual lab simulations', url:'https://phet.colorado.edu'}
+  ];
+
+  const resourcesEl = document.getElementById('resources');
+  function renderResources(list){
+    resourcesEl.innerHTML = '';
+    list.forEach(r=>{
+      const div = document.createElement('div');
+      div.className='resource';
+      div.innerHTML = `<h3>${r.title}</h3><p class="small">${r.desc}</p><div style="margin-top:8px"><a class="link" href="${r.url}" target="_blank" rel="noopener">Open</a></div>`;
+      resourcesEl.appendChild(div);
+    });
+  }
+  renderResources(resources);
+
+  // Simple local search (client-only)
+  document.getElementById('searchBtn').addEventListener('click', () => {
+    const q = document.getElementById('searchBox').value.trim().toLowerCase();
+    if(!q){ renderResources(resources); return; }
+    const filtered = resources.filter(r => (r.title + ' ' + r.desc).toLowerCase().includes(q));
+    renderResources(filtered);
+  });
+
+  // Demo admin unlock (non-functional token check)
+  document.getElementById('adminBtn').addEventListener('click', () => {
+    const token = document.getElementById('adminPass').value;
+    if(token === 'letmein'){ // demo only — do not use in real systems
+      document.getElementById('adminPanel').style.display = 'block';
+      alert('Admin view unlocked (demo). In production, authenticate server-side.');
+    } else {
+      alert('Invalid token. For actual admin access, authenticate via the school IT system.');
+    }
+  });
+</script>
+</body>
+</html>
